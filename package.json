@@ -1,0 +1,7 @@
+{
+  "name": "lunar",
+  "version": "0.0.0",
+  "dependencies": {
+    "handlebars": "^3.0.0"
+  }
+}

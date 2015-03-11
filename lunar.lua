@@ -4,10 +4,26 @@ ffi.cdef [[
 	void lunar_initialize(int, int, const char *);
 	void lunar_update();
 	void lunar_flush();
-	void lunar_polygon_allocate(unsigned);
-	void lunar_polygon_set_color(unsigned, float, float, float);
-	void lunar_polygon_set_offset(unsigned, float, float);
-	void lunar_polygon_draw(unsigned);
+
+		void lunar_polygon_allocate(unsigned);
+			void lunar_polygon_set_color (
+				unsigned
+					, float
+					, float
+					, float
+			);
+			void lunar_polygon_set_offset (
+				unsigned
+					, float
+					, float
+			);
+			void lunar_polygon_draw(unsigned);
+		void lunar_magic_allocate(unsigned);
+			void lunar_magic_set_mahou_shoujo (
+				unsigned
+					, const char *
+					, const char *
+			);
 ]]
 local lib = ffi.load('./lunar.so')
 local c = 100
@@ -22,7 +38,6 @@ return {
 	, draw = function(self)
 		lib.lunar_update();
 		local id = math.floor(c / 100)
-		print(id)
 		lib.lunar_polygon_draw(id)
 		c = c + 1
 		if c >= 400 then

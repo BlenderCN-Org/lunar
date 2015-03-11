@@ -1,0 +1,25 @@
+#include <cassert>
+#include <string>
+#include <vector>
+#include "api.hpp"
+{{#each structures}}
+	std::vector<{{type_name}}> {{vector_name}};
+	void lunar_{{name}}_allocate(unsigned count)
+	{
+		{{vector_name}}.resize(count, {{type_name}}{});
+	}
+	{{#each setters}}
+		void lunar_{{../name}}_set_{{name}} (
+			unsigned id
+			{{#each args}}
+				, {{setter_type}} {{name}}
+			{{/each}}
+		) {
+			assert(id > 0 && id <= {{../vector_name}}.size());
+			auto &{{../name}} = {{../vector_name}}[id - 1];
+			{{#each args}}
+				{{../../name}}.{{name}} = {{name}};
+			{{/each}}
+		}
+	{{/each}}
+{{/each}}

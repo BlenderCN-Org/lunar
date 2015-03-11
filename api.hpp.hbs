@@ -1,0 +1,25 @@
+{{#each structures}}
+	struct {{type_name}} {
+		{{#each properties}}
+			{{type}} {{name}};
+		{{/each}}
+	};
+	extern std::vector<{{type_name}}> {{vector_name}};
+{{/each}}
+extern "C"
+{
+	{{#each structures}}
+		void lunar_{{name}}_allocate(unsigned);
+		{{#each setters}}
+			void lunar_{{../name}}_set_{{name}} (
+				unsigned
+				{{#each args}}
+					, {{setter_type}}
+				{{/each}}
+			);
+		{{/each}}
+		{{#each actions}}
+			void lunar_{{../name}}_{{this}}(unsigned);
+		{{/each}}
+	{{/each}}
+}

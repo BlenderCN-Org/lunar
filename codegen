@@ -1,0 +1,57 @@
+#!/usr/bin/env node
+'use strict';
+var fs = require('fs');
+var hbs = require('handlebars');
+var template = hbs.compile (
+	fs.readFileSync (
+		process.argv[2], { encoding: 'utf8' }
+	)
+);
+var structures = JSON.parse (
+	fs.readFileSync (
+		"./structures.json", { encoding: 'utf8' }
+	)
+);
+var name;
+var structure;
+var property_name;
+var property;
+var setter_name;
+var setter;
+for(name in structures) {
+	structure = structures[name];
+	structure.name = name;
+	structure.type_name = 't_' + name;
+	structure.vector_name = 'v_' + name;
+	for(property_name in structure.properties) {
+		property = {
+			name: property_name
+			, type: structure.properties[property_name]
+		};
+		property.setter_type = (function() {
+			switch(property.type) {
+				case 'std::string':
+					return 'const char *';
+				default:
+					return property.type;
+			}
+		})();
+		structure.properties[property_name] = property;
+	}
+	for(setter_name in structure.setters) {
+		setter = {
+			name: setter_name
+			, args: (
+				structure.setters[setter_name].map (
+					function(setter_property) {
+						return structure.properties[setter_property];
+					}
+				)
+			)
+		};
+		structure.setters[setter_name] = setter;
+	}
+}
+console.log (
+	template({ structures: structures })
+);

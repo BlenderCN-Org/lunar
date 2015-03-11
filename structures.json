@@ -1,0 +1,27 @@
+{
+	"polygon": {
+		"properties": {
+			"r": "float"
+			, "g": "float"
+			, "b": "float"
+			, "x_offset": "float"
+			, "y_offset": "float"
+		}
+		, "setters": {
+			"color": ["r", "g", "b"]
+			, "offset": ["x_offset", "y_offset"]
+		}
+		, "actions": [
+			"draw"
+		]
+	}
+	, "magic": {
+		"properties": {
+			"m": "std::string"
+			, "s": "std::string"
+		}
+		, "setters": {
+			"mahou_shoujo": ["m", "s"]
+		}
+	}
+}
